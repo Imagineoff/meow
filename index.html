@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Majk AI Bot</title>
+<style>
+  /* --- Reset --- */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+  body { background-color:#0d0d0d; color:#fff; transition: background-color 0.3s, color 0.3s; }
+  a { color:#00f0ff; text-decoration:none; }
+  a:hover { color:#ff00ff; }
+  button { cursor:pointer; border:none; padding:10px 20px; margin:5px; border-radius:5px; transition: 0.3s; }
+
+  /* --- Light mode --- */
+  body.light { background-color:#f2f2f2; color:#111; }
+  body.light a { color:#0077aa; }
+  body.light a:hover { color:#aa0077; }
+
+  /* --- Header --- */
+  header { display:flex; justify-content:space-between; align-items:center; padding:20px; background: linear-gradient(90deg, #00f0ff, #ff00ff); }
+  header h1 { font-size:2rem; text-shadow: 0 0 10px #ff00ff, 0 0 20px #00f0ff; }
+
+  /* --- Navbar --- */
+  nav { display:flex; gap:10px; }
+  nav button { background: #111; color:#fff; box-shadow: 0 0 10px #00f0ff; }
+  body.light nav button { background:#ddd; color:#111; box-shadow: 0 0 10px #0077aa; }
+
+  /* --- Sections --- */
+  section { padding:50px 20px; max-width:1000px; margin:auto; }
+  section h2 { font-size:1.8rem; margin-bottom:20px; border-bottom:2px solid #00f0ff; display:inline-block; padding-bottom:5px; }
+  section p { font-size:1.1rem; line-height:1.6; margin-bottom:15px; }
+  .commands { display:flex; flex-wrap:wrap; gap:15px; }
+  .command { flex:1 1 200px; padding:15px; background: #111; border-radius:10px; box-shadow: 0 0 10px #ff00ff; transition:0.3s; }
+  .command:hover { transform:scale(1.05); box-shadow: 0 0 20px #00f0ff; }
+  body.light .command { background:#eee; color:#111; box-shadow: 0 0 10px #0077aa; }
+
+  /* --- Buttons --- */
+  .btn-group { margin-top:20px; }
+  .btn-group a { display:inline-block; background:linear-gradient(90deg, #00f0ff, #ff00ff); color:#fff; padding:10px 20px; border-radius:8px; margin-right:10px; text-shadow:0 0 5px #000; transition:0.3s; }
+  .btn-group a:hover { opacity:0.8; }
+
+  /* --- Status --- */
+  #status { font-size:1.2rem; padding:10px; background:#111; border-radius:8px; display:inline-block; box-shadow:0 0 10px #00f0ff; margin-bottom:20px; }
+  body.light #status { background:#ddd; color:#111; box-shadow:0 0 10px #0077aa; }
+
+  /* --- Dark/Light toggle --- */
+  .toggle-btn { background: #ff00ff; color:#fff; font-weight:bold; }
+  body.light .toggle-btn { background:#0077aa; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Majk AI Bot</h1>
+  <nav>
+    <button class="toggle-btn" onclick="toggleMode()">Toggle Dark/Light</button>
+  </nav>
+</header>
+
+<section id="about">
+  <h2>About Majk</h2>
+  <p>Majk is a Discord AI bot powered by OpenAI (GPT-4 style) that can interact with users in a friendly or aggressive manner depending on its personality settings. You can customize the bot's personality, set up a dedicated channel for replies, and enjoy robust AI-powered interactions.</p>
+  <div id="status">Status: <span id="botStatus">Online</span> | Servers: <span id="serverCount">0</span></div>
+</section>
+
+<section id="commands">
+  <h2>Commands</h2>
+  <div class="commands">
+    <div class="command"><strong>/setupchannel</strong><br>Set the channel where Majk will respond.</div>
+    <div class="command"><strong>/uninstallchannel</strong><br>Remove the AI reply channel.</div>
+    <div class="command"><strong>/personality</strong><br>Set or update Majk's personality (admin only).</div>
+    <div class="command"><strong>/resetpersonality</strong><br>Reset Majk's personality to default (admin only).</div>
+    <div class="command"><strong>/help</strong><br>Show available commands.</div>
+    <div class="command"><strong>Owner Commands</strong><br>Manage servers, restart, shutdown, view logs.</div>
+  </div>
+</section>
+
+<section id="features">
+  <h2>Features</h2>
+  <p>- Responds to messages only in the configured channel.</p>
+  <p>- Stores chat history for coherent AI replies.</p>
+  <p>- Fully admin-controlled personality and channel settings.</p>
+  <p>- Owner-only commands for blacklist, invite creation, and bot management.</p>
+  <p>- Dark/Light mode toggle for easier viewing.</p>
+</section>
+
+<section id="links">
+  <h2>Links</h2>
+  <div class="btn-group">
+    <a href="https://top.gg/bot/YOUR_BOT_ID/vote" target="_blank">Vote on Top.gg</a>
+    <a href="https://top.gg/bot/YOUR_BOT_ID" target="_blank">Top.gg Page</a>
+    <a href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&scope=bot%20applications.commands&permissions=8" target="_blank">Invite Majk</a>
+  </div>
+</section>
+
+<script>
+  // --- Dark/Light toggle ---
+  function toggleMode() {
+    document.body.classList.toggle('light');
+  }
+
+  // --- Simulate dynamic bot status (replace with API call if you want real status) ---
+  const serverCount = 12; // Example static number, can replace with API
+  document.getElementById('serverCount').innerText = serverCount;
+  document.getElementById('botStatus').innerText = "Online";
+
+  // Optional: You can poll an API to update status dynamically
+</script>
+
+</body>
+</html>
