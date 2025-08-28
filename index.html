@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Majk AI Bot</title>
+<title>Majk Bot</title>
 <style>
 /* --- Reset --- */
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
@@ -17,19 +17,28 @@ header {
   display:flex; justify-content:space-between; align-items:center;
   padding:20px; position:sticky; top:0; background:rgba(0,0,0,0.7); z-index:10;
   backdrop-filter:blur(5px);
+  transition: background 0.5s;
 }
 header.light { background: rgba(255,255,255,0.7); }
 header h1 {
   font-size:2rem;
-  color:#fff;
-  text-shadow:0 0 5px #00f0ff,0 0 10px #ff00ff;
+  background: linear-gradient(270deg, #00f0ff, #ff00ff, #00f0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: neonShift 20s linear infinite;
 }
-body.light header h1 { color:#111; text-shadow:0 0 5px #0077aa, 0 0 10px #ff5500; }
+@keyframes neonShift {
+  0% { background-position:0% 50%; }
+  50% { background-position:100% 50%; }
+  100% { background-position:0% 50%; }
+}
 
 /* --- Navbar --- */
 nav button {
   background:#111; color:#fff; font-weight:bold;
-  padding:10px 20px; border-radius:8px; box-shadow:0 0 10px #00f0ff;
+  padding:10px 20px; margin-left:10px;
+  border-radius:8px; box-shadow:0 0 10px #00f0ff;
+  cursor:pointer;
   transition:0.3s, transform 0.3s;
 }
 nav button:hover {
@@ -43,88 +52,119 @@ body.light nav button:hover { box-shadow:0 0 20px #ff5500,0 0 40px #0077aa; }
 section { padding:70px 20px; max-width:1000px; margin:auto; }
 section h2 {
   font-size:1.8rem; margin-bottom:20px; display:inline-block;
-  color:#00f0ff;
-  transition: color 0.3s;
+  background: linear-gradient(270deg, #00f0ff, #ff00ff, #00f0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: neonShift 25s linear infinite;
 }
-body.light section h2 { color:#0077aa; }
-section p { font-size:1.1rem; line-height:1.6; margin-bottom:15px; }
+section p, section li { margin:10px 0; line-height:1.5; }
+section a { color:#00f0ff; text-decoration:none; }
+body.light a { color:#0077aa; }
 
-/* --- Commands --- */
-.commands { display:flex; flex-wrap:wrap; gap:20px; }
-.command {
-  flex:1 1 200px;
-  padding:20px;
-  border-radius:12px;
-  background:rgba(0,0,0,0.6);
-  box-shadow:0 0 10px #00f0ff;
-  transition:0.3s transform 0.3s, box-shadow 0.3s;
-}
-.command:hover {
-  transform:translateY(-5px) scale(1.05);
-  box-shadow:0 0 25px #ff00ff, 0 0 50px #00f0ff;
-}
-body.light .command { background:#eee; color:#111; box-shadow:0 0 15px #0077aa; }
+/* --- Buttons Container --- */
+.buttons { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
 
-/* --- Buttons --- */
-.btn-group { margin-top:20px; }
-.btn-group a {
-  display:inline-block; background:linear-gradient(90deg, #00f0ff, #ff00ff);
-  color:#fff; padding:12px 25px; border-radius:10px; margin-right:10px;
-  text-shadow:0 0 5px #000; transition:0.3s, transform 0.3s;
+/* --- Neon details box --- */
+.box {
+  padding:20px; border-radius:12px;
+  border: 2px solid transparent;
+  background: rgba(255,255,255,0.05);
+  background-clip: padding-box;
+  position: relative;
+  transition:0.5s;
 }
-.btn-group a:hover { transform:scale(1.05); opacity:0.85; }
-
-/* --- Status --- */
-#status { font-size:1.2rem; padding:12px; border-radius:10px; display:inline-block;
-  box-shadow:0 0 10px #00f0ff;
+.box::before {
+  content:'';
+  position:absolute; top:-2px; left:-2px; right:-2px; bottom:-2px;
+  background: linear-gradient(270deg, #00f0ff, #ff00ff, #00f0ff);
+  z-index:-1;
+  filter:blur(15px);
+  border-radius:14px;
+  opacity:0.5;
+  animation: neonShift 30s linear infinite;
 }
-body.light #status { box-shadow:0 0 10px #0077aa; color:#111; }
 
-/* --- Smooth scroll for sections --- */
-html { scroll-behavior:smooth; }
+/* --- Dark / Light toggle --- */
+.toggle-mode {
+  position:fixed; bottom:20px; right:20px;
+  background:#111; color:#fff; border:none; padding:10px 15px;
+  border-radius:50px; cursor:pointer; box-shadow:0 0 10px #00f0ff;
+  transition:0.3s, transform 0.3s;
+}
+.toggle-mode:hover { transform:scale(1.1); box-shadow:0 0 20px #ff00ff,0 0 40px #00f0ff; }
+body.light .toggle-mode { background:#eee; color:#111; box-shadow:0 0 10px #0077aa; }
+body.light .toggle-mode:hover { box-shadow:0 0 20px #ff5500,0 0 40px #0077aa; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Majk AI Bot</h1>
+  <h1>Majk Bot</h1>
   <nav>
-    <button class="toggle-btn" onclick="toggleMode()">Toggle Dark/Light</button>
+    <button onclick="scrollToSection('about')">About</button>
+    <button onclick="scrollToSection('commands')">Commands</button>
+    <button onclick="scrollToSection('prompt')">Prompt Example</button>
+    <button onclick="scrollToSection('invite')">Invite</button>
   </nav>
 </header>
 
 <section id="about">
-  <h2>About Majk</h2>
-  <p>Majk is a Discord AI bot powered by OpenAI. It can respond in friendly or aggressive ways depending on its personality settings. Customize the bot's personality, set up channels for replies, and enjoy interactive AI conversations!</p>
-  <div id="status">Status: <span id="botStatus">Online</span> | Servers: <span id="serverCount">0</span></div>
+  <h2>🤖 About Majk</h2>
+  <p>Majk is a Discord AI bot powered by OpenRouter API. It responds in a designated channel, remembers conversation history, and can be customized via slash commands.</p>
 </section>
 
 <section id="commands">
-  <h2>Commands</h2>
-  <div class="commands">
-    <div class="command"><strong>/setupchannel</strong><br>Set the channel where Majk will respond.</div>
-    <div class="command"><strong>/uninstallchannel</strong><br>Remove the AI reply channel.</div>
-    <div class="command"><strong>/personality</strong><br>Set or update Majk's personality (admin only).</div>
-    <div class="command"><strong>/resetpersonality</strong><br>Reset Majk's personality to default (admin only).</div>
-    <div class="command"><strong>/help</strong><br>Show available commands.</div>
-    <div class="command"><strong>Owner Commands</strong><br>Manage servers, restart, shutdown, view logs.</div>
+  <h2>⚡ Commands</h2>
+  <ul>
+    <li><strong>/setupchannel</strong> - Set the channel where Majk will reply (Admin only)</li>
+    <li><strong>/uninstallchannel</strong> - Remove the AI reply channel (Admin only)</li>
+    <li><strong>/personality</strong> - Change bot personality (Admin only)</li>
+    <li><strong>/personality reset</strong> - Reset bot personality to default (Admin only)</li>
+    <li><strong>/help</strong> - Show all commands</li>
+  </ul>
+</section>
+
+<section id="prompt">
+  <h2>💬 Prompt Example</h2>
+  <div class="box">
+    <p>Always use the full prompt for Majk. Example:</p>
+    <pre>
+You are Majk, a Discord AI bot.
+- Friendly but can be a little aggressive when joking
+- Responds only in the designated channel
+- Always remembers the conversation history
+- Follow server admin instructions via /personality
+- Do not shorten instructions
+    </pre>
+    <p>Shortened prompts might confuse Majk or break conversations.</p>
+    <p>Support: <a href="https://dsc.gg/pxlcore" target="_blank">https://dsc.gg/pxlcore</a></p>
   </div>
 </section>
 
-<section id="features">
-  <h2>Features</h2>
-  <p>- Responds only in the configured channel.</p>
-  <p>- Stores chat history for coherent AI replies.</p>
-  <p>- Admin-controlled personality and channel settings.</p>
-  <p>- Owner-only commands for blacklist, invite creation, and bot management.</p>
-  <p>- Dark/Light mode toggle.</p>
+<section id="invite">
+  <h2>📨 Invite & Vote</h2>
+  <div class="buttons">
+    <a href="https://top.gg/bot/YOUR_BOT_ID" target="_blank"><button>Vote on Top.gg</button></a>
+    <a href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&scope=bot%20applications.commands&permissions=8" target="_blank"><button>Invite Majk</button></a>
+  </div>
 </section>
 
-<section id="links">
-  <h2>Links</h2>
-  <div class="btn-group">
-    <a href="https://top.gg/bot/YOUR_BOT_ID/vote" target="_blank">Vote on Top.gg</a>
-    <a href="https://top.gg/bot/YOUR_BOT_ID" target="_blank">Top.gg Page</a>
-    <a href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&scope=bot%20applications.commands&permissions=8" target="_blank">Invite Majk</a>
-  </div>
-</section
+<button class="toggle-mode" onclick="toggleMode()">🌙 Toggle Dark/Light</button>
+
+<script>
+function scrollToSection(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+// --- Dark/Light Mode ---
+function toggleMode(){
+  document.body.classList.toggle('light');
+  localStorage.setItem('mode', document.body.classList.contains('light') ? 'light' : 'dark');
+}
+window.onload = function(){
+  if(localStorage.getItem('mode')==='light') document.body.classList.add('light');
+};
+</script>
+
+</body>
+</html>
