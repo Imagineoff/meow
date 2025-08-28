@@ -15,17 +15,17 @@ body.light { background:#f2f2f2; color:#111; }
 /* --- Header --- */
 header {
   display:flex; justify-content:space-between; align-items:center;
-  padding:20px; position:sticky; top:0; background:rgba(0,0,0,0.7); z-index:10;
+  padding:10px 20px; position:sticky; top:0; background:rgba(0,0,0,0.7); z-index:10;
   backdrop-filter:blur(5px);
   transition: background 0.5s;
 }
 header.light { background: rgba(255,255,255,0.7); }
 header h1 {
-  font-size:2rem;
-  background: linear-gradient(270deg, #00f0ff, #ff00ff, #00f0ff);
+  font-size:1.5rem;
+  background: linear-gradient(270deg, #00d0ff, #d000ff, #00d0ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: neonShift 20s linear infinite;
+  animation: neonShift 25s linear infinite;
 }
 @keyframes neonShift {
   0% { background-position:0% 50%; }
@@ -36,64 +36,64 @@ header h1 {
 /* --- Navbar --- */
 nav button {
   background:#111; color:#fff; font-weight:bold;
-  padding:10px 20px; margin-left:10px;
-  border-radius:8px; box-shadow:0 0 10px #00f0ff;
-  cursor:pointer;
-  transition:0.3s, transform 0.3s;
+  padding:6px 12px; margin-left:6px;
+  border-radius:6px; box-shadow:0 0 6px #00d0ff;
+  cursor:pointer; transition:0.3s, transform 0.3s;
+  font-size:0.9rem;
 }
 nav button:hover {
-  transform:scale(1.1);
-  box-shadow:0 0 20px #ff00ff, 0 0 40px #00f0ff;
+  transform:scale(1.05);
+  box-shadow:0 0 12px #d000ff, 0 0 20px #00d0ff;
 }
-body.light nav button { background:#eee; color:#111; box-shadow:0 0 10px #0077aa; }
-body.light nav button:hover { box-shadow:0 0 20px #ff5500,0 0 40px #0077aa; }
+body.light nav button { background:#eee; color:#111; box-shadow:0 0 6px #0077aa; }
+body.light nav button:hover { box-shadow:0 0 12px #ff5500,0 0 20px #0077aa; }
 
 /* --- Sections --- */
-section { padding:70px 20px; max-width:1000px; margin:auto; }
+section { padding:50px 20px; max-width:900px; margin:auto; }
 section h2 {
-  font-size:1.8rem; margin-bottom:20px; display:inline-block;
-  background: linear-gradient(270deg, #00f0ff, #ff00ff, #00f0ff);
+  font-size:1.5rem; margin-bottom:15px; display:inline-block;
+  background: linear-gradient(270deg, #00d0ff, #d000ff, #00d0ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: neonShift 25s linear infinite;
 }
-section p, section li { margin:10px 0; line-height:1.5; }
-section a { color:#00f0ff; text-decoration:none; }
+section p, section li { margin:8px 0; line-height:1.5; word-wrap:break-word; }
+section a { color:#00d0ff; text-decoration:none; }
 body.light a { color:#0077aa; }
 
 /* --- Buttons Container --- */
-.buttons { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+.buttons { display:flex; flex-wrap:wrap; gap:10px; margin-top:15px; }
 
 /* --- Neon details box --- */
 .box {
-  padding:20px; border-radius:12px;
+  padding:15px; border-radius:10px;
   border: 2px solid transparent;
   background: rgba(255,255,255,0.05);
-  background-clip: padding-box;
   position: relative;
   transition:0.5s;
 }
 .box::before {
   content:'';
   position:absolute; top:-2px; left:-2px; right:-2px; bottom:-2px;
-  background: linear-gradient(270deg, #00f0ff, #ff00ff, #00f0ff);
+  background: linear-gradient(270deg, #00d0ff, #d000ff, #00d0ff);
   z-index:-1;
-  filter:blur(15px);
-  border-radius:14px;
-  opacity:0.5;
-  animation: neonShift 30s linear infinite;
+  filter:blur(10px);
+  border-radius:12px;
+  opacity:0.4;
+  animation: neonShift 40s linear infinite;
 }
 
 /* --- Dark / Light toggle --- */
 .toggle-mode {
   position:fixed; bottom:20px; right:20px;
-  background:#111; color:#fff; border:none; padding:10px 15px;
-  border-radius:50px; cursor:pointer; box-shadow:0 0 10px #00f0ff;
+  background:#111; color:#fff; border:none; padding:8px 12px;
+  border-radius:40px; cursor:pointer; box-shadow:0 0 8px #00d0ff;
   transition:0.3s, transform 0.3s;
+  font-size:0.9rem;
 }
-.toggle-mode:hover { transform:scale(1.1); box-shadow:0 0 20px #ff00ff,0 0 40px #00f0ff; }
-body.light .toggle-mode { background:#eee; color:#111; box-shadow:0 0 10px #0077aa; }
-body.light .toggle-mode:hover { box-shadow:0 0 20px #ff5500,0 0 40px #0077aa; }
+.toggle-mode:hover { transform:scale(1.05); box-shadow:0 0 16px #d000ff,0 0 30px #00d0ff; }
+body.light .toggle-mode { background:#eee; color:#111; box-shadow:0 0 8px #0077aa; }
+body.light .toggle-mode:hover { box-shadow:0 0 16px #ff5500,0 0 30px #0077aa; }
 </style>
 </head>
 <body>
