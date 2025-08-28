@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Install Majk Bot</title>
+
+  <!-- Basic Meta -->
+  <meta name="description" content="Majk Bot Install Page - Advertisement before adding the bot">
+  <meta name="author" content="Imagine">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Favicon / Logo -->
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Imagineoff/meow/main/IMG_2632.jpeg">
+
+  <!-- Open Graph (Discord, Facebook) -->
+  <meta property="og:title" content="Install Majk Bot">
+  <meta property="og:description" content="Advertisement is playing... You will be redirected to add Majk Bot to your server in 10 seconds.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Imagineoff/meow/main/IMG_2632.jpeg">
+  <meta property="og:url" content="https://majk.vercel.app/install">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Install Majk Bot">
+  <meta name="twitter:description" content="Advertisement is playing... You will be redirected to add Majk Bot to your server in 10 seconds.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/Imagineoff/meow/main/IMG_2632.jpeg">
+
+  <style>
+    /* Dark Mode Style */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+    }
+
+    .message {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .timer {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #0ff;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff; }
+      100% { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff; }
+    }
+  </style>
+</head>
+<body>
+  <div class="message">Advertisement is playing...</div>
+  <div class="timer" id="timer">10</div>
+
+  <script>
+    let countdown = 10;
+    const timerEl = document.getElementById('timer');
+
+    // Discord OAuth URL with admin permissions
+    const inviteURL = "https://discord.com/oauth2/authorize?client_id=1367537434480480316&permissions=8&scope=bot%20applications.commands";
+
+    const interval = setInterval(() => {
+      countdown--;
+      timerEl.textContent = countdown;
+      if (countdown <= 0) {
+        clearInterval(interval);
+        window.location.href = inviteURL;
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
