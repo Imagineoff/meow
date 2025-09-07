@@ -62,6 +62,96 @@
 </head>
 <body>
   <div class="message">Advertisement is playing...</div>
+  <!-- BEGIN: Sliding bottom ad -->
+<style>
+  .ad-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #f7ff87;
+    z-index: 9999;
+    overflow: hidden;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.12);
+    font-family: system-ui, Arial, sans-serif;
+  }
+
+  .ad-track {
+    display: inline-flex;
+    gap: 36px;
+    white-space: nowrap;
+    align-items: center;
+    /* dvakrát stejný obsah pro plynulý loop */
+    padding-left: 100%;
+    will-change: transform;
+    animation: scroll-left 14s linear infinite;
+  }
+
+  .ad-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #111;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+  }
+
+  .ad-item img {
+    display: block;
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: transparent;
+  }
+
+  .ad-item .arrow {
+    opacity: 0.85;
+    margin: 0 6px;
+    font-weight: 700;
+  }
+
+  @keyframes scroll-left {
+    0%   { transform: translateX(0%); }
+    100% { transform: translateX(-50%); } /* posun o polovinu, protože obsah je duplikován */
+  }
+
+  /* Pozastavení animace při hoveru */
+  .ad-bar:hover .ad-track { animation-play-state: paused; }
+
+  /* Zmenšení pro mobil */
+  @media (max-width: 480px) {
+    .ad-bar { height: 56px; }
+    .ad-item { font-size: 16px; }
+    .ad-item img { width: 28px; height: 28px; }
+  }
+</style>
+
+<div class="ad-bar" aria-hidden="false">
+  <div class="ad-track" role="list">
+    <!-- obsah opakuji dvakrát pro plynulý loop -->
+    <a class="ad-item" role="listitem" href="https://lunes.host" target="_blank" rel="noopener noreferrer" aria-label="Try best hosting — Lunes Host (otevře nové okno)">
+      <span>try best hosting</span>
+      <span class="arrow">→</span>
+      <strong>lunes host</strong>
+      <img src="https://i.imgur.com/dQumzMY.png" alt="Lunes Host logo">
+    </a>
+
+    <a class="ad-item" role="listitem" href="https://lunes.host" target="_blank" rel="noopener noreferrer" aria-label="Try best hosting — Lunes Host (otevře nové okno)">
+      <span>try best hosting</span>
+      <span class="arrow">→</span>
+      <strong>lunes host</strong>
+      <img src="https://i.imgur.com/dQumzMY.png" alt="Lunes Host logo">
+    </a>
+  </div>
+</div>
+<!-- END: Sliding bottom ad -->
   <div class="timer" id="timer">10</div>
  <script src="https://fpyf8.com/88/tag.min.js" data-zone="167139" async data-cfasync="false"></script>
   <script>
