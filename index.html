@@ -1,64 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Otaku CZ/SK</title>
-    <meta name="description" content="anime, manga and more!">
+    <meta name="description" content="Komunita pro anime, mangu a kulturu!">
     <link rel="icon" href="https://i.imgur.com/X5tvpZU.png" type="image/png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary-red: #ff0000;
+            --bg-color: #050505;
+            --audio-level: 1; /* Tato proměnná se bude měnit pomocí JS podle hudby */
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            background-color: #000000;
+            background-color: var(--bg-color);
             color: #ffffff;
             font-family: 'Nunito', sans-serif;
             overflow-x: hidden;
+            min-height: 100vh;
         }
-        #intro-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 1;
-            transition: opacity 1s ease-out;
-        }
-        #intro-overlay h1 {
-            font-family: 'Gochi Hand', cursive;
-            font-size: 6vw;
-            color: #ff0000;
-            opacity: 0;
-            animation: fadeIn 2.5s 0.5s forwards;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+
+        /* --- SAKURA EFEKTY --- */
+        
+        /* Větev: Zobrazit JEN na mobilu (max šířka 768px) */
         #sakura-branch {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: auto;
+            max-width: 400px;
             z-index: 5;
             pointer-events: none;
+            display: block; /* Default pro mobily */
         }
+
+        @media (min-width: 769px) {
+            #sakura-branch {
+                display: none; /* Skryto na PC */
+            }
+        }
+
+        /* Kontejner pro padající lístky */
         #petal-container {
             position: fixed;
             top: 0;
@@ -69,57 +63,136 @@
             z-index: 4;
             pointer-events: none;
         }
+
         .petal {
             position: absolute;
             background: #FFB7C5;
             width: 10px;
             height: 15px;
             border-radius: 10% 50% 10% 50%;
-            opacity: 0.9;
-            animation: fall linear infinite;
+            opacity: 0.8;
+            animation: fall linear forwards;
+            /* Reakce na hudbu: lístky se mohou jemně zvětšovat do rytmu */
+            transform: scale(calc(1 + (var(--audio-level) * 0.1)));
         }
+
         @keyframes fall {
-            0% {
-                top: -10%;
-                transform: translateX(0px) rotate(0deg);
-            }
-            100% {
-                top: 110%;
-                transform: translateX(calc(100px + 10vw * var(--sway))) rotate(720deg);
-            }
+            0% { top: -10%; transform: translateX(0) rotate(0deg); }
+            100% { top: 110%; transform: translateX(calc(100px + 10vw * var(--sway))) rotate(720deg); }
         }
+
+        /* --- START SCREEN (Click to Enter) --- */
+        #start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease;
+            cursor: pointer;
+        }
+
+        #start-overlay h1 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.5rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulseText 2s infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* --- LOGO ANIMACE (Kreslení) --- */
+        #logo-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 5vh;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        svg.logo-draw {
+            width: 90%;
+            max-width: 600px;
+            height: auto;
+        }
+
+        .logo-text {
+            fill: transparent;
+            stroke: var(--primary-red);
+            stroke-width: 2;
+            stroke-dasharray: 1000; /* Dostatečně dlouhé číslo */
+            stroke-dashoffset: 1000; /* Skryté na začátku */
+            font-family: 'Gochi Hand', cursive;
+            font-size: 100px;
+            /* Zde bude glowing efekt reagující na hudbu */
+            filter: drop-shadow(0 0 calc(var(--audio-level) * 10px) var(--primary-red));
+        }
+
+        .logo-text.animate {
+            animation: draw 4s ease-out forwards, fillIn 1s 3.5s forwards;
+        }
+
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes fillIn {
+            to { fill: var(--primary-red); stroke: none; }
+        }
+
+        /* --- HLAVNÍ OBSAH --- */
         main {
             position: relative;
             z-index: 10;
             max-width: 900px;
-            margin: 15vh auto 50px auto;
+            margin: 0 auto 50px auto;
             padding: 30px;
             text-align: center;
+            opacity: 0; /* Skryté před startem */
+            transition: opacity 2s ease;
         }
-        main h2 {
-            font-size: 2.5rem;
-            color: #ff0000;
-            margin-bottom: 20px;
-        }
+
         main p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #eeeeee;
             line-height: 1.6;
             margin-bottom: 30px;
+            text-shadow: 0 0 5px rgba(0,0,0,0.8);
         }
+
+        /* Widget reagující na hudbu */
         .widget-container {
             padding: 10px;
-            border: 2px solid #ff0000;
+            border: 2px solid var(--primary-red);
             border-radius: 8px;
             margin: 20px auto;
             max-width: 90%;
+            background: rgba(0, 0, 0, 0.6);
+            /* REAKCE NA HUDBU: Box shadow pulzuje */
+            box-shadow: 0 0 calc(var(--audio-level) * 20px) rgba(255, 0, 0, 0.4);
+            transition: box-shadow 0.1s;
         }
+
         .widget-container iframe {
             width: 100%;
             height: 500px;
             border: none;
             border-radius: 5px;
         }
+
         .socials {
             margin-top: 40px;
             display: flex;
@@ -127,39 +200,51 @@
             align-items: center;
             gap: 20px;
         }
-        .socials a {
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-        .socials a:hover {
-            transform: scale(1.15);
-        }
+
         .socials img {
             width: 50px;
             height: 50px;
             border-radius: 10px;
+            transition: transform 0.2s;
         }
+        
+        .socials a:hover img {
+            transform: scale(1.2);
+            box-shadow: 0 0 15px var(--primary-red);
+        }
+
     </style>
 </head>
 <body>
 
-    <div id="intro-overlay">
-        <h1>Otaku CZ/SK</h1>
+    <div id="start-overlay">
+        <h1>[ Click to Enter ]</h1>
+        <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Enable Audio</p>
     </div>
+
+    <audio id="bg-music" crossOrigin="anonymous" loop>
+        <source src="https://files.catbox.moe/2328sc.mp3" type="audio/mpeg">
+    </audio>
 
     <img src="https://i.imgur.com/sieiQvi.png" id="sakura-branch" alt="Sakura Branch">
     <div id="petal-container"></div>
 
-    <main>
-        <h2>Welcome, fellow Otaku!</h2>
+    <div id="logo-container">
+        <svg class="logo-draw" viewBox="0 0 600 150">
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" class="logo-text">
+                Otaku CZ/SK
+            </text>
+        </svg>
+    </div>
+
+    <main id="main-content">
         <p>
-            You've found the home of Otaku CZ/SK, the ultimate community for anime and manga lovers.
-            Whether you're looking for recommendations, discussions, or just a friendly place to chat,
-            our Discord server is the place to be.
+            Vítejte doma. Otaku CZ/SK je ultimátní komunita pro milovníky anime a mangy.
+            Doporučení, diskuze, nebo jen friendly pokec? Vše najdeš na našem Discordu.
         </p>
 
-        <h3>Join our Community</h3>
-        <p>Click the widget below to connect instantly!</p>
+        <h3>Připoj se k nám</h3>
+        <p>Klikni na widget níže a naskoč okamžitě!</p>
 
         <div class="widget-container">
             <iframe 
@@ -171,7 +256,7 @@
         </div>
 
         <div class="socials">
-            <p>Follow us on Instagram:</p>
+            <p>Sleduj nás na Instagramu:</p>
             <a href="https://www.instagram.com/cz.sk_otaku" target="_blank" rel="noopener noreferrer">
                 <img src="https://i.imgur.com/XRTX3bT.png" alt="Instagram Logo">
             </a>
@@ -179,24 +264,16 @@
     </main>
 
     <script>
-        window.addEventListener('load', () => {
-            const overlay = document.getElementById('intro-overlay');
-            setTimeout(() => {
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 1000);
-            }, 3000);
-        });
-
+        // --- SAKURA LOGIC ---
         function createPetal() {
             const petalContainer = document.getElementById('petal-container');
             const petal = document.createElement('div');
             petal.classList.add('petal');
             
-            const startX = Math.random() * 40; 
+            // Random pozice a animace
+            const startX = Math.random() * 95; 
             const animDuration = Math.random() * 5 + 7; 
-            const animDelay = Math.random() * 5;
+            const animDelay = Math.random() * 2;
             const sway = (Math.random() - 0.5) * 2;
 
             petal.style.left = startX + 'vw';
@@ -206,12 +283,90 @@
             
             petalContainer.appendChild(petal);
 
+            // Odstranění po skončení animace
             setTimeout(() => {
                 petal.remove();
             }, (animDuration + animDelay) * 1000);
         }
+        
+        // Spouštění tvorby lístků
+        setInterval(createPetal, 350);
 
-        setInterval(createPetal, 300);
+
+        // --- AUDIO VISUALIZER & START LOGIC ---
+        const startOverlay = document.getElementById('start-overlay');
+        const audio = document.getElementById('bg-music');
+        const mainContent = document.getElementById('main-content');
+        const logoText = document.querySelector('.logo-text');
+
+        let audioContext;
+        let analyser;
+        let source;
+
+        startOverlay.addEventListener('click', async () => {
+            // 1. Zmizení overlaye
+            startOverlay.style.opacity = '0';
+            setTimeout(() => { startOverlay.style.display = 'none'; }, 1000);
+
+            // 2. Start animací
+            logoText.classList.add('animate');
+            mainContent.style.opacity = '1';
+
+            // 3. Audio Setup (Web Audio API)
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Připojení audia k analýze
+                // Note: Musíme počkat, až se kontext obnoví (prohlížeče to blokují před kliknutím)
+                await audioContext.resume();
+                
+                source = audioContext.createMediaElementSource(audio);
+                analyser = audioContext.createAnalyser();
+                
+                // Nastavení vyhlazování (aby blikání nebylo moc zbrklé)
+                analyser.smoothingTimeConstant = 0.8;
+                analyser.fftSize = 256; 
+
+                source.connect(analyser);
+                analyser.connect(audioContext.destination);
+
+                // Start hudby
+                audio.volume = 0.5; // Nastav hlasitost na 50%
+                audio.play();
+
+                // Spuštění renderovací smyčky pro vizualizaci
+                renderFrame();
+
+            } catch (e) {
+                console.log("Audio visualizer error (pravděpodobně CORS nebo browser policy):", e);
+                // Fallback: Prostě přehraj hudbu i když vizualizér selže
+                audio.play();
+            }
+        });
+
+        function renderFrame() {
+            requestAnimationFrame(renderFrame);
+
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            
+            analyser.getByteFrequencyData(dataArray);
+
+            // Získáme průměrnou hodnotu basů (prvních pár frekvencí)
+            let bassSum = 0;
+            let bassCount = 20; // Kolik "binů" z frekvence bereme jako basy
+            for (let i = 0; i < bassCount; i++) {
+                bassSum += dataArray[i];
+            }
+            const bassAverage = bassSum / bassCount;
+
+            // Normalizujeme hodnotu na 0 až 2 (pro CSS scale/opacity)
+            // 255 je max hodnota byteFrequency
+            const audioLevel = bassAverage / 100; 
+
+            // Pošleme hodnotu do CSS proměnné --audio-level
+            document.documentElement.style.setProperty('--audio-level', audioLevel);
+        }
     </script>
 </body>
 </html>
