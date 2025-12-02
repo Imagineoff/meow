@@ -39,28 +39,25 @@
             font-family: 'Gochi Hand', cursive;
             font-size: 6vw;
             color: #ff0000;
-            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
             opacity: 0;
-            animation: fadeInGlow 2.5s 0.5s forwards;
+            animation: fadeIn 2.5s 0.5s forwards;
         }
-        @keyframes fadeInGlow {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                text-shadow: 0 0 5px #ff0000;
             }
             to {
                 opacity: 1;
-                text-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000;
             }
         }
         #sakura-branch {
             position: fixed;
-            top: -20px;
-            left: -30px;
-            width: 400px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
             z-index: 5;
             pointer-events: none;
-            filter: drop-shadow(0 0 10px #ffc0cb);
         }
         #petal-container {
             position: fixed;
@@ -91,25 +88,20 @@
                 transform: translateX(calc(100px + 10vw * var(--sway))) rotate(720deg);
             }
         }
-        .container {
+        main {
             position: relative;
             z-index: 10;
             max-width: 900px;
-            margin: 10vh auto 50px auto;
+            margin: 15vh auto 50px auto;
             padding: 30px;
-            background: rgba(10, 0, 0, 0.7);
-            border: 2px solid #ff0000;
-            border-radius: 10px;
             text-align: center;
-            backdrop-filter: blur(3px);
         }
-        .container h2 {
+        main h2 {
             font-size: 2.5rem;
             color: #ff0000;
             margin-bottom: 20px;
-            text-shadow: 0 0 5px #ff0000;
         }
-        .container p {
+        main p {
             font-size: 1.1rem;
             color: #eeeeee;
             line-height: 1.6;
@@ -117,25 +109,10 @@
         }
         .widget-container {
             padding: 10px;
-            border: 3px solid #ff0000;
+            border: 2px solid #ff0000;
             border-radius: 8px;
-            animation: pulseBorder 2s infinite;
             margin: 20px auto;
             max-width: 90%;
-        }
-        @keyframes pulseBorder {
-            0% {
-                border-color: #ff0000;
-                box-shadow: 0 0 5px #ff0000, inset 0 0 5px #ff0000;
-            }
-            50% {
-                border-color: #c00000;
-                box-shadow: 0 0 20px #ff0000, inset 0 0 10px #ff0000;
-            }
-            100% {
-                border-color: #ff0000;
-                box-shadow: 0 0 5px #ff0000, inset 0 0 5px #ff0000;
-            }
         }
         .widget-container iframe {
             width: 100%;
@@ -161,7 +138,6 @@
             width: 50px;
             height: 50px;
             border-radius: 10px;
-            filter: drop-shadow(0 0 5px #ff0000);
         }
     </style>
 </head>
@@ -171,10 +147,10 @@
         <h1>Otaku CZ/SK</h1>
     </div>
 
-    <img src="https://i.imgur.com/yNGRXW6.png" id="sakura-branch" alt="Sakura Branch">
+    <img src="https://i.imgur.com/sieiQvi.png" id="sakura-branch" alt="Sakura Branch">
     <div id="petal-container"></div>
 
-    <main class="container">
+    <main>
         <h2>Welcome, fellow Otaku!</h2>
         <p>
             You've found the home of Otaku CZ/SK, the ultimate community for anime and manga lovers.
