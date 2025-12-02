@@ -368,5 +368,83 @@
             document.documentElement.style.setProperty('--audio-level', audioLevel);
         }
     </script>
+    <!-- vlož do svého HTML (např. těsně před </body>) -->
+<script>
+/*
+  Typewriter title script
+  - upravuj `phrases`, `typingSpeed`, `deletingSpeed`, `pauseAfterTyping`
+  - automaticky se pozastaví, když uživatel opustí kartu (visibility change)
+*/
+
+(function () {
+  const phrases = [
+    "Otaku CZ/SK",
+    "Anime & manga | join our Discord server | Follow us on IG"
+  ];
+
+  const typingSpeed = 90;      // ms mezi znaky při psaní
+  const deletingSpeed = 50;    // ms mezi znaky při mazání
+  const pauseAfterTyping = 1800; // ms pauza po napsání celé fráze
+  const pauseAfterDeleting = 350; // ms pauza po smazání (krátká)
+
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let typing = true; // true = píše, false = maže
+  let isPaused = false;
+
+  // Pause when tab not visible to save CPU & avoid weird title flashes
+  document.addEventListener("visibilitychange", () => {
+    isPaused = document.hidden;
+  });
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function typeLoop() {
+    while (true) {
+      if (isPaused) {
+        await sleep(300);
+        continue;
+      }
+
+      const current = phrases[phraseIndex];
+      if (typing) {
+        // psaní
+        if (charIndex <= current.length) {
+          document.title = current.slice(0, charIndex);
+          charIndex++;
+          await sleep(typingSpeed);
+        } else {
+          // hotovo napsáno -> pauza
+          await sleep(pauseAfterTyping);
+          typing = false;
+          // připravit mazání od konce
+          charIndex = current.length;
+        }
+      } else {
+        // mazání
+        if (charIndex >= 0) {
+          document.title = current.slice(0, charIndex);
+          charIndex--;
+          await sleep(deletingSpeed);
+        } else {
+          // kompletně smazáno -> krátká pauza a přejít na další frázi
+          await sleep(pauseAfterDeleting);
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          typing = true;
+          charIndex = 0;
+        }
+      }
+    }
+  }
+
+  // small initial delay so the page title isn't immediately blanked on load
+  (async () => {
+    await sleep(300);
+    typeLoop();
+  })();
+})();
+</script>
 </body>
 </html>
